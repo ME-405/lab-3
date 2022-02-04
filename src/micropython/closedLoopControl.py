@@ -69,7 +69,7 @@ class closedLoopController:
 			else:
 				self.current_time = utime.ticks_ms()
 				if utime.ticks_diff(self.current_time, self.nextTime) >= 0:
-					voltage = 3.3                          # Voltage used for the microcontroller
+					voltage = 3.3                          # Voltage used for the micro-controller
 					actuation = (error * self.kp)/voltage  # get the actuation
 					if actuation >= 80:
 						self.motor.set_duty_cycle(80)

@@ -79,6 +79,7 @@ Motor2.enable()
 
 def task1_fun():
     """!
+	
     Task which puts things into a share and a queue.
     """
     counter = 0

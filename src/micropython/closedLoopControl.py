@@ -38,6 +38,7 @@ class ClosedLoopController:
         self.start_time = utime.ticks_ms()  # the staring time
         self.interval = input_interval  # the interval of the milliseconds
         self.nextTime = utime.ticks_add(self.start_time, self.interval)
+        self.motorNum = 0
 
         # Setting the UART for serial communication
         self.uart = UART(2)
@@ -98,12 +99,13 @@ class ClosedLoopController:
         @details It provides with the numerical values for the encoder positions as
                     well as the corresponding time-stamp to such encoder position
         '''
-        data = zip(self.time_list, self.encoder_list)
-        for numbers in data:
-            print(*numbers)
-        print("DONE")
+        if self.motorNum == 1:
+            data = zip(self.time_list, self.encoder_list)
+            for numbers in data:
+                print(*numbers)
+            print("DONE")
 
-        # clear the different lists
+            # clear the different lists
         self.time_list.clear()
         self.encoder_list.clear()
 

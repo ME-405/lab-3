@@ -32,7 +32,7 @@ utime.sleep_ms(10)  # saftey
 input_interval = 10
 # input_interval = int(input("Enter the interval"))
 clc1 = closed_loop(input_interval, EncoderDriver1, Motor1)
-
+clc1.motorNum = 1
 # Instantiated object for the encoder as well as timer,
 encoder2Pin1 = pyb.Pin(pyb.Pin.board.PB6)
 encoder2Pin2 = pyb.Pin(pyb.Pin.board.PB7)
@@ -49,7 +49,7 @@ utime.sleep_ms(10)  # saftey
 input_interval = 10
 # input_interval = int(input("Enter the interval"))
 clc2 = closed_loop(input_interval, EncoderDriver2, Motor2)
-
+clc2.motorNum = 2  #the second number
 # print("about to enable the motor")
 Motor1.enable()
 Motor2.enable()
@@ -109,7 +109,7 @@ def task2_fun():
 # tasks run until somebody presses ENTER, at which time the scheduler stops and
 # printouts show diagnostic information about the tasks, share, and queue.
 if __name__ == "__main__":
-    print('\0332Welcome to the closed loop controller\r\n')
+    #print('\0332Welcome to the closed loop controller\r\n')
 
     # Create a share and a queue to test function and diagnostic printouts
     share0 = task_share.Share('h', thread_protect=False, name="Share 0")
@@ -121,12 +121,12 @@ if __name__ == "__main__":
     # of memory after a while and quit. Therefore, use tracing only for
     # debugging and set trace to False when it's not needed
     task1 = cotask.Task(clc1.control_algorithm, name='clc1', priority=1,
-                        period=20, profile=False, trace=False)
+                        period=10, profile=False, trace=False)
     task2 = cotask.Task(clc2.control_algorithm, name='clc2', priority=2,
-                        period=20, profile=False, trace=False)
+                        period=10, profile=False, trace=False)
     cotask.task_list.append(task1)
     cotask.task_list.append(task2)
-
+    wait = input()
     # Run the memory garbage collector to ensure memory is as defragmented as
     # possible before the real-time scheduler is started
     gc.collect()

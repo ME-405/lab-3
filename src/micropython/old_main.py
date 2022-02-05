@@ -11,7 +11,7 @@ from Motor import MotorDriver
 from encoder import Encoder
 from closedLoopControl import ClosedLoopController as closed_loop
 from pyb import Pin
-import pyb 
+import pyb
 import gc
 import cotask
 import task_share
@@ -40,11 +40,11 @@ EncTimer2 = 4
 EncoderDriver2 = Encoder(encoder2Pin1, encoder2Pin2, EncTimer2, 1, 2)
 
 # Instantiated the objects for the chosen Motor,
-motorEnable2 = pyb.Pin(pyb.Pin.board.PC1, pyb.Pin.IN, pyb.Pin.PULL_UP)
-motor2Pin1 = pyb.Pin(pyb.Pin.board.PA0, pyb.Pin.OUT_PP)
-motor2Pin2 = pyb.Pin(pyb.Pin.board.PA1, pyb.Pin.OUT_PP)
-motorTimer2 = pyb.Timer(5, freq=20000)
-Motor2 = MotorDriver(motorEnable2, motor2Pin1, motor2Pin2, motorTimer2, 1, 2)
+motorEnable2 = pyb.Pin(pyb.Pin.board.PA10, pyb.Pin.IN, pyb.Pin.PULL_UP)
+motor2Pin1 = pyb.Pin(pyb.Pin.board.PB0, pyb.Pin.OUT_PP)
+motor2Pin2 = pyb.Pin(pyb.Pin.board.PB1, pyb.Pin.OUT_PP)
+# motorTimer2 = pyb.Timer(3, freq=20000)
+Motor2 = MotorDriver(motorEnable2, motor2Pin1, motor2Pin2, motorTimer, 3, 4)
 utime.sleep_ms(10)  # saftey
 input_interval = 10
 # input_interval = int(input("Enter the interval"))
@@ -52,29 +52,29 @@ clc2 = closed_loop(input_interval, EncoderDriver2, Motor2)
 
 # print("about to enable the motor")
 Motor1.enable()
-Motor2.enable()
+
 
 # clc1.control_algorithm()
 
 
-# def main():
-#     '''!
-#     @brief    This is the function that the Nucleo will run on boot
-#               It creates the closed loop controller object and runs the control algorithm
-#     '''
-#     utime.sleep_ms(10)  # saftey
-#     # print("about to enable the motor")
-#     Motor1.enable()
-#     # print("just about to go into while")
-#     while True:
-#         try:
-#             #       print("starting the algorithm")
-#             clc1.control_algorithm()
-#             clc2.control_algorithm()
-#         except KeyboardInterrupt:
-#             Motor1.disable()
-#             #       print("HIT THE EXCEPTION")
-#             break
+def main():
+    '''!
+    @brief    This is the function that the Nucleo will run on boot
+              It creates the closed loop controller object and runs the control algorithm
+    '''
+    utime.sleep_ms(10)  # saftey
+    # print("about to enable the motor")
+    Motor1.enable()
+    # print("just about to go into while")
+    while True:
+        try:
+            #       print("starting the algorithm")
+            clc1.control_algorithm()
+            clc2.control_algorithm()
+        except KeyboardInterrupt:
+            Motor1.disable()
+            #       print("HIT THE EXCEPTION")
+            break
 
 
 def task1_fun():
@@ -119,10 +119,10 @@ if __name__ == "__main__":
     # allocated for state transition tracing, and the application will run out
     # of memory after a while and quit. Therefore, use tracing only for
     # debugging and set trace to False when it's not needed
-    task1 = cotask.Task(clc1.control_algorithm, name='clc1', priority=1,
-                        period=20, profile=False, trace=False)
-    task2 = cotask.Task(clc2.control_algorithm, name='clc2', priority=2,
-                        period=20, profile=False, trace=False)
+    task1 = cotask.Task(clc1.control_algorithm(), name='clc1', priority=1,
+                        period=400, profile=True, trace=False)
+    task2 = cotask.Task(clc2.control_algorithm(), name='clc2', priority=2,
+                        period=1500, profile=True, trace=False)
     cotask.task_list.append(task1)
     cotask.task_list.append(task2)
 

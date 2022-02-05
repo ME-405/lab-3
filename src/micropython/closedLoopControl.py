@@ -124,11 +124,17 @@ class ClosedLoopController:
                     actuation value; which is dependent of the difference
                     encoder positions as well as the value of kp
         '''
-        self.kp = .6  # for DEBUG testing
-        # self.kp = float(input())
+        #self.kp = .6  # for DEBUG testing
+        if self.motorNum == 1:
+            self.kp = float(input())
+        else:
+            self.kp = .6  # for DEBUG testing
+		
         self.final_point = 16384
+        #self.final_point = 70000
         self.encoder.set_position(0)  # zero out the encoder value
         # print("values set")
+        self.start_time = utime.ticks_ms()
         while True:
             if self.done == 0:
                 self.encoder.update()  # update the encoder value
@@ -140,24 +146,24 @@ class ClosedLoopController:
                     self.done = 1
 
                 else:
-                    self.current_time = utime.ticks_ms()
-                    if utime.ticks_diff(self.current_time, self.nextTime) >= 0:
-                        voltage = 3.3  # Voltage used for the microcontroller
-                        actuation = (error * self.kp) / voltage  # get the actuation
-                        if actuation >= 80:
-                            self.motor.set_duty_cycle(80)
-                        elif 30 >= actuation > 5:
-                            self.motor.set_duty_cycle(30)
-                        elif -30 <= actuation < 5:
-                            self.motor.set_duty_cycle(-30)
-                        elif actuation <= -80:
-                            self.motor.set_duty_cycle(-80)
-                        elif -5 <= actuation <= 5:
-                            #        print("DEBUG: I HAVE FINISHED")
-                            self.motor.disable()
-                            self.done = 1
-                        else:
-                            self.motor.set_duty_cycle(actuation)
+                    #self.current_time = utime.ticks_ms()
+                    #if utime.ticks_diff(self.current_time, self.nextTime) >= 0:
+                    voltage = 3.3  # Voltage used for the microcontroller
+                    actuation = (error * self.kp) / voltage  # get the actuation
+                    if actuation >= 80:
+                        self.motor.set_duty_cycle(80)
+                    elif 30 >= actuation > 5:
+                        self.motor.set_duty_cycle(30)
+                    elif -30 <= actuation < 5:
+                        self.motor.set_duty_cycle(-30)
+                    elif actuation <= -80:
+                        self.motor.set_duty_cycle(-80)
+                    elif -5 <= actuation <= 5:
+                        #        print("DEBUG: I HAVE FINISHED")
+                        self.motor.disable()
+                        self.done = 1
+                    else:
+                        self.motor.set_duty_cycle(actuation)
                     self.update_list()  # update the list position\
                 yield 0
             elif self.done == 1:

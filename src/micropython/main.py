@@ -109,6 +109,7 @@ def task2_fun():
 # tasks run until somebody presses ENTER, at which time the scheduler stops and
 # printouts show diagnostic information about the tasks, share, and queue.
 if __name__ == "__main__":
+    per_val = 7
     #print('\0332Welcome to the closed loop controller\r\n')
 
     # Create a share and a queue to test function and diagnostic printouts
@@ -121,12 +122,12 @@ if __name__ == "__main__":
     # of memory after a while and quit. Therefore, use tracing only for
     # debugging and set trace to False when it's not needed
     task1 = cotask.Task(clc1.control_algorithm, name='clc1', priority=1,
-                        period=10, profile=False, trace=False)
+                        period=per_val, profile=False, trace=False)
     task2 = cotask.Task(clc2.control_algorithm, name='clc2', priority=2,
-                        period=10, profile=False, trace=False)
+                        period=per_val, profile=False, trace=False)
     cotask.task_list.append(task1)
     cotask.task_list.append(task2)
-    wait = input()
+    #wait = input()
     # Run the memory garbage collector to ensure memory is as defragmented as
     # possible before the real-time scheduler is started
     gc.collect()
@@ -134,11 +135,17 @@ if __name__ == "__main__":
     # Run the scheduler with the chosen scheduling algorithm. Quit if any
     # character is received through the serial port
     vcp = pyb.USB_VCP()
-    while not vcp.any():
-        cotask.task_list.pri_sched()
+    #while not vcp.any():
+    while True:
+        if vcp.any():
+            if vcp.read() == 'BREAK':
+                break
+
+        else:
+            cotask.task_list.pri_sched()
 
     # Empty the comm port buffer of the character(s) just pressed
-    vcp.read()
+    #vcp.read()
     # Print a table of task data and a table of shared information data
     print('\n' + str(cotask.task_list))
     print(task_share.show_all())

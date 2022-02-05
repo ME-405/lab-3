@@ -42,7 +42,7 @@ class Encoder:
         
         # Reference count used to compute change in encoder position (delta)
         # ref_count will update in each run through the "update" method
-        self.ref_count = 0
+        self.ref_count = self.timer.counter()
         
         # Current Position: Position in [ticks] of the associated encoder
         # current_pos will update in each run through the "update" method       

@@ -2,7 +2,7 @@
 ## Lab 03
 Jacob Bograd, Nick De Simone, Horacio Albarran
 
-Documentation TODO
+Documentation: https://me-405.github.io/lab-3/
 
 ---
 

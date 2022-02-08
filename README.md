@@ -21,7 +21,7 @@ running out of memory whenever this happened due to the amount of data being rec
 
 ---
 Graphs  
-![Kp1](Images/Kp=1.png) 
+![Kp1](Images/Kp=1.png)  
 This graphs shows the motor with a Kp of 1  
 ![Kp.5](Images/Kp=0.5.png)  
 This graph shows the motor with a Kp of 0.5  

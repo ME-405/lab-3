@@ -9,11 +9,11 @@ of data corruption by interrupts.
            under the GNU Public License, version 3.0. 
 """
 
+# Importing libraries
 import array
 import gc
 import pyb
 import micropython
-
 
 ## This is a system-wide list of all the queues and shared variables. It is
 #  used to create diagnostic printouts. 

@@ -2,7 +2,7 @@
 @file    Motor.py
 @brief   MotorDriver class with associated methods 
 @author  Nick De Simone, Jacob-Bograd, Horacio Albarran
-@date	 January 30, 2022
+@date	 February 07, 2022
 '''
 
 # Importing libraries
@@ -15,7 +15,13 @@ class MotorDriver:
 
     def __init__(self, en_pin, in1pin, in2pin, inputTimer, channel1, channel2):
         '''!
-        @brief     It will initialize the variables on the main file as well as motor defaults; MotorDriver-Class.
+        @brief   It will initialize the variables on the main file as well as motor defaults; MotorDriver-Class.
+		@param   en_pin specify the pin for the encoder
+        @param   in1pin First motor pin for PWM signal
+		@param   in2pin Second motor pin for PWM signal
+        @param   inputTimer specify the chosen timer number for the encoder
+        @param   channel1 specify the first channel
+        @param   channel2 specify the second channel
 
         '''
 
@@ -64,3 +70,8 @@ class MotorDriver:
             self.ch1.pulse_width_percent(0)
             self.ch2.pulse_width_percent(-duty)
         #    print('MOTOR: Setting duty cycle to NEGATIVE' + str(duty))
+
+		
+		
+		
+		

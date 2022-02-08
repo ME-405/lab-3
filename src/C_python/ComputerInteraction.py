@@ -61,9 +61,6 @@ class UInterface:
         # It creates a list with the encoder position
         self.Position_list = []
 
-        # It creates a variable for the values of omega
-        self.Omega_list = []
-
         # It creates an array with the time and position in it 
         self.Data_list = []
 
@@ -71,6 +68,15 @@ class UInterface:
         '''!
         @brief It creates an object which transforms the input to the ASCII corresponding value
         '''
+        
+        # Control + C
+        self.ser.write(b'\x03')
+        time.sleep(0.5)             # Sleeps for 0.5 seconds
+        
+        # Control + D
+        self.ser.write(b'\x04')
+        time.sleep(0.5)             # Sleeps for 0.5 seconds
+        
         print('\r\n')
         print('Allowed K_p values are from 0-1')
         print('and press "S" to provide with a new command while collecting data')
@@ -89,10 +95,10 @@ class UInterface:
         @brief It provides with the plot for the data provided
         '''
         self.plt.figure()
-        self.plt.plot(self.Time_list, self.Position_list)
-        self.plt.title('Position vs Time ' + str(self.K_p))
+        self.plt.plot(self.Time_list, self.Position_list, '.')
+        self.plt.title('Position vs Time with Kp = ' + str(self.K_p))
         self.plt.ylabel('Position (ticks)')
-        self.plt.xlabel('Time (us)')
+        self.plt.xlabel('Time (ms)')
         self.plt.grid()
         self.plt.show()
 
@@ -167,7 +173,7 @@ class UInterface:
                                 print('run # ' + str(self.run))
                                 # print(self.myval)
                                 # print(self.Data_list)
-                                np.savetxt('lab2Data.csv', self.Data_list2, delimiter=',')
+                                np.savetxt('lab3Data.csv', self.Data_list2, delimiter=',')
                                 self.transitionTo(self.S1_Update_Position)
                             except:
                                 print('DEBUG: Exception')

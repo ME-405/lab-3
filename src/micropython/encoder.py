@@ -2,7 +2,7 @@
 @file     encoder.py
 @brief    A driver for reading from Quadrature Encoders
 @author   Nick De Simone, Jacob-Bograd, Horacio Albarran
-@date     January 30, 2022
+@date     February 07, 2022
 """
 
 ## Importing libraries

@@ -2,7 +2,7 @@
 @file     old_main.py
 @brief    File that runs the encoder and motor
 @author   Nick De Simone, Jacob-Bograd, Horacio Albarran
-@date     January 30, 2022
+@date     February 07, 2022
 '''
 
 # Importing libraries and classes

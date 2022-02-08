@@ -2,7 +2,7 @@
 @file    closedLoopControl.py
 @details Close loop control runs and manages data interaction produced by the hardware 
 @author  Nick De Simone, Jacob-Bograd, Horacio Albarran
-@date    January 30, 2022
+@date    February 07, 2022
 """
 
 # Importing the required classes and libraries
@@ -24,7 +24,7 @@ class ClosedLoopController:
                      required calculations for the motor to work properly
         @param   input_interval provides with the desired interval to collect data
         @param   encoder set the parameter given for the chosen encoder
-        @param   motor provides with the chosen motor
+        @param   MotorDriver provides with the chosen motor
         '''
 
         # Setting some parameters
@@ -80,14 +80,13 @@ class ClosedLoopController:
         self.time_list.append(timestamp)
         self.encoder_list.append(encoder_value)
 
-    # print("DEBUG: ", timestamp, encoder_value)
+		# print("DEBUG: ", timestamp, encoder_value)
 
     def update_kp(self):
         '''!
         @details It ask for the user's input for the variable kp
         '''
-        # self.kp = float(input("Please enter kp"))
-
+  
         # print('\r\n')
         # print('Allowed K_p values are from 0-1')
         # print('and press "S" to provide with a new command while collecting data')
@@ -105,7 +104,7 @@ class ClosedLoopController:
                 print(*numbers)
             print("DONE")
 
-            # clear the different lists
+        # clear the different lists
         self.time_list.clear()
         self.encoder_list.clear()
 
@@ -126,9 +125,11 @@ class ClosedLoopController:
         '''
         #self.kp = .6  # for DEBUG testing
         if self.motorNum == 1:
+			# K_p value for motor-1
             self.kp = float(input())
         else:
-            self.kp = .6  # for DEBUG testing
+			# K_p value for motor-2
+            self.kp = .8  # for DEBUG testing
 		
         self.final_point = 16384
         #self.final_point = 70000
@@ -148,7 +149,7 @@ class ClosedLoopController:
                 else:
                     #self.current_time = utime.ticks_ms()
                     #if utime.ticks_diff(self.current_time, self.nextTime) >= 0:
-                    voltage = 3.3  # Voltage used for the microcontroller
+                    voltage = 3.3  # Voltage used for the micro-controller
                     actuation = (error * self.kp) / voltage  # get the actuation
                     if actuation >= 80:
                         self.motor.set_duty_cycle(80)
@@ -165,19 +166,13 @@ class ClosedLoopController:
                     else:
                         self.motor.set_duty_cycle(actuation)
                     self.update_list()  # update the list position\
-                yield 0
+                # yield 0
             elif self.done == 1:
                 self.print_list()
                 self.done = 2
-                yield 0
-            else:
-                yield 0
+                # yield 0
+            # else:
+            yield 0
 
-                # utime.sleep_ms(self.interval)
-
-    # self.nextTime = utime.ticks_add(self.nextTime, self.interval)  # update the next time
-
-        #self.print_list()  # print out the list when we are done
-        #
 
 

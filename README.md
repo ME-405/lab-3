@@ -7,15 +7,15 @@ Documentation: https://me-405.github.io/lab-3/
 ---
 
 
-This lab modifies our closed loop controller from lab 02, before the controller utilized blocking 
-sleep statements to control the sampling rate. The controller has been updated to act as a generator with a mini FSM
-built into the design. All blocking sleep commands have been replaced with Yield's. This allows a scheduler to come into
-the picture and swap between the different closed loop controllers. For this lab we controlled two differnt motors, one
-of the motors used a hard-coded Kp value while the other took its Kp from a serial input from the host computer. Motor 2
-then sends its data back to the computer for it to graph it. Three different graphs are shown below.  
+This lab modifies our closed loop controller from Lab 02, which used to control the motor task's sampling rate with the 
+use of blocking sleep statements. The controller has been updated to act as a generator function with a two-state FSM
+controlling either data collection or printing. All blocking sleep commands were replaced with "yield", which allowed for 
+task scheduling between closed loop control of the two motors. For this lab, one motor received a fixed Kp value of 0.6
+while the other took its Kp from a serial input from the host computer. This second motor then sends its data back to the 
+computer where it is graphed. Please refer to the graphs below for instances of proportional-control on this motor.  
 
-When the motors are run too slowly the motor keeps overshooting causing massive oscillations, the microcontroller kept 
-running out of memory whenever this happened due to the amount of data being recorded, so we are unable to show a Graph.
+NOTE: When the motor tasks are run at long intervals, the motors overshoot and produce uncontained oscillation. This causes
+the microcontroller to run out of memory due to the amount of data it records, and subsequently fail to produce plotted data.
 
 
 
